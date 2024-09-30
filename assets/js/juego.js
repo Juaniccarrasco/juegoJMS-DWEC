@@ -1,13 +1,9 @@
-/**
- * Vamos a crear dos montones de tarjetas, uno de películas y otro de recursos relacionados:
- * 
- */
 const NMOVIES = 5
 const NELEMENTSPMOVIE = 3
 let draggedElement= null
-let turnos = 3
 let draggedImg = null
 let aciertos = 0
+let turnos = 3
 
 const btnMovieConfiguration = () => {
     const btnMovie = document.querySelector('#btnMovie')
@@ -83,34 +79,29 @@ const btnMovieConfiguration = () => {
                                     const message = document.createElement('h1');
                                     message.textContent = '¡Has ganado el juego!';
                                     message.classList.add('detectableMessage')
-                                    //document.header.appendChild(message);
-                                    document.body.insertBefore(message, document.body.firstChild)
-                                }
+                                    const dondeCrearMensaje = document.querySelector('.col')
+                                    dondeCrearMensaje.appendChild(message)
                                     
-                                    //alert('Has ganado')
+                                }                                  
+                                    
                             }
                         } 
                         else {
                             turnos--
                             gameOver()
                             
-                        }
-                        
+                        }                        
                     }
-                }
-            
-                
+                } 
             });
-
         }
-
     })
 }
 
 const btnElementConfiguration = () => {
     const btnElement = document.querySelector('#btnElement')
     const divGlobal = document.querySelector("#elementos-pelicula")
-    //const divTarjetas = document.querySelector('#pelicula-caratula')
+    
     btnElement.addEventListener('click', () => {
         let element = getElement(elementDeck)
         //Creamos el elemento 
@@ -125,8 +116,6 @@ const btnElementConfiguration = () => {
 
         imgElement.draggable = false;
 
-        divElement.addEventListener('mouseup', selectEventListener)
-
         divElement.setAttribute('draggable',true);
         divElement.addEventListener('dragstart', (e)=>{
             e.dataTransfer.effectAllowed = "move";
@@ -139,11 +128,7 @@ const btnElementConfiguration = () => {
         divElement.addEventListener('dragend', () => {
             divElement.classList.remove('dragging');
         });
-
     });
-
-    
-        
 };
 
     
@@ -153,7 +138,7 @@ const gameOver = () => {
 
         const anulables = document.querySelector('#btnElement');
         anulables.disabled = true; // Desactivar el botón
-        anulables.removeEventListener('mouseup', selectEventListener)
+        //anulables.removeEventListener('mouseup', selectEventListener)
         anulables.classList.add('disabled')
         console.log('he llegado aqui')
 
@@ -162,14 +147,11 @@ const gameOver = () => {
             const message = document.createElement('h1');
             message.textContent = '¡Has perdido el juego!';
             message.classList.add('detectableMessage')
-            //document.header.appendChild(message);
-            document.body.insertBefore(message, document.body.firstChild)
+            const dondeCrearMensaje = document.querySelector('.col')
+            dondeCrearMensaje.appendChild(message)
+            
         }
-
-        //alert('HAS PERDIDO <br> suerte la próxima vez ')
-
     }
-
 }
 
 const iniciar = ()=>{
@@ -181,41 +163,7 @@ const iniciar = ()=>{
     const reanudar = document.querySelector ('#btnElement')
     reanudar.classList.remove('disabled')
     reanudar.disabled = false
-    reanudar.addEventListener('mouseup', selectEventListener)
     }
-
-const selectEventListener = (e) => {
-    //Obtenemos el src de la img
-    //Si pinchamos puede que estemos pinchando en el div o en la imagen, debemos obtener el src de la imagen
-    let img = (e.target.tagName === 'DIV') ? e.target.querySelector('img') : e.target
-    let elementName = img.src.split('/').pop() //Cojo el nombre de la imagen del elemento, sin la ruta completa
-    
-    if(turnos>0){
-        if (isElementOfMovie(elementName, movieSelected)){
-            let dianas = document.querySelector('.diana')
-            let elementos = document.querySelector('.elemento')
-            img.parentElement.classList.add('ok')
-            
-            dianas.appendChild(img)
-            
-//*************************************************************** */            
-            
-            //dianas.appendChild(img.parentElement)
-            //dianas.addEventListener('mouseup', dropear)
-
-        }else {
-            img.parentElement.classList.add('fail')
-            
-            turnos --
-
-        }
-            
-        if (turnos ==0) {
-            gameOver(); // Desactivamos el juego
-        }
-    }
-    return 
-}
 
 const getMoviesDeck = () => {
     let movieDeck = []
